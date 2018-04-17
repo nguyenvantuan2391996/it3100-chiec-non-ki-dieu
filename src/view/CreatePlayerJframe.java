@@ -31,16 +31,17 @@ public class CreatePlayerJframe extends JFrame {
 		setResizable(false);
 		setVisible(true);
 		setLocationRelativeTo(null);
-		try {
-			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src/image/adminframe.jpg")))));
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Hệ thống đang có lỗi");
-			e.printStackTrace();
-		}
+		
+		// create button and label
 		createButton();
 		createTextfield();
 		createLabel();
 		createComboBox();
+		
+		// set background
+		JLabel background = new JLabel(new ImageIcon("src/image/adminframe.jpg"));
+		background.setSize(800, 550);
+		add(background);
 	}
 
 	/**
@@ -120,8 +121,5 @@ public class CreatePlayerJframe extends JFrame {
 		jComboBox.setLocation(280, 400);
 		jComboBox.setName("cmbTopic");
 		add(jComboBox);
-	}
-	public static void main(String[] args) throws SQLException {
-		CreatePlayerJframe a = new CreatePlayerJframe();
 	}
 }

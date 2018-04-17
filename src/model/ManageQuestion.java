@@ -10,22 +10,19 @@ import connectionDB.ConnectDB;
 import view.AdminJframe;
 import view.NoticeMessage;
 
-public class ManageQuestion {
-	private Connection conn;
+public class ManageQuestion extends ConnectDB {
 	private PreparedStatement stmt;
 	private ResultSet rs;
 
 	/**
 	 * Thêm câu hỏi
 	 * 
-	 * @param question
-	 *            : đối tượng câu hỏi
+	 * @param question : đối tượng câu hỏi
 	 * @return notice : thông báo
 	 * @throws SQLException
 	 */
 	public String addQuestion(Question question) throws SQLException {
-		ConnectDB connect = new ConnectDB();
-		conn = connect.getConnectDB();
+		conn = getConnectDB();
 		String notice = "";
 		int parameterIndex = 1;
 		String sql = "insert into question(questionid, question, topic, dapan, dapantv) "
@@ -62,14 +59,12 @@ public class ManageQuestion {
 	/**
 	 * Sửa câu hỏi
 	 * 
-	 * @param question
-	 *            : đối tượng câu hỏi
+	 * @param question : đối tượng câu hỏi
 	 * @return notice : thông báo
 	 * @throws SQLException
 	 */
 	public String editQuestion(Question question) throws SQLException {
-		ConnectDB connect = new ConnectDB();
-		conn = connect.getConnectDB();
+		conn = getConnectDB();
 		String notice = "";
 		int parameterIndex = 1;
 		String sql = "update question "
@@ -96,14 +91,12 @@ public class ManageQuestion {
 	/**
 	 * Xóa câu hỏi
 	 * 
-	 * @param question
-	 *            : đối tượng câu hỏi
+	 * @param question : đối tượng câu hỏi
 	 * @return notice : thông báo
 	 * @throws SQLException
 	 */
 	public String deleteQuestion(Question question) throws SQLException {
-		ConnectDB connect = new ConnectDB();
-		conn = connect.getConnectDB();
+		conn = getConnectDB();
 		String notice = "";
 		int parameterIndex = 1;
 		String sql = "delete from question "
@@ -132,8 +125,7 @@ public class ManageQuestion {
 	public ArrayList<Question> getData() throws SQLException {
 		ArrayList<Question> arrayQuestion = new ArrayList<>();
 		Question question;
-		ConnectDB connect = new ConnectDB();
-		conn = connect.getConnectDB();
+		conn = getConnectDB();
 		int parameterIndex = 1;
 		String sql = "select questionid, question, topic, dapan, dapantv "
 					+"from question";
@@ -168,8 +160,7 @@ public class ManageQuestion {
 	 */
 	public ArrayList<String> getTopic() throws SQLException {
 		ArrayList<String> list = new ArrayList<>();
-		ConnectDB connect = new ConnectDB();
-		conn = connect.getConnectDB();
+		conn = getConnectDB();
 		int parameterIndex = 0;
 		String sql = "select distinct topic "
 					+"from question ";

@@ -11,22 +11,19 @@ import connectionDB.ConnectDB;
 import controller.ControllerGame;
 import view.NoticeMessage;
 
-public class PlayGame {
-	private Connection conn;
+public class PlayGame extends ConnectDB {
 	private PreparedStatement stmt;
 	private ResultSet rs;
 
 	/**
 	 * Kiểm tra đáp án của người chơi với đáp án câu hỏi
 	 * 
-	 * @param question
-	 *            : đối tượng câu hỏi
+	 * @param question : đối tượng câu hỏi
 	 * @return notice : thông báo
 	 * @throws SQLException
 	 */
 	public String checkDapan(Question question, String answer) throws SQLException {
-		ConnectDB connect = new ConnectDB();
-		conn = connect.getConnectDB();
+		conn = getConnectDB();
 		String notice = "";
 		int parameterIndex = 1;
 		String sql = "select questionid "
@@ -43,6 +40,7 @@ public class PlayGame {
 				notice = "Rất tiếc bạn đã trả lời sai";
 			}
 		} catch (Exception e) {
+			NoticeMessage.noticeMessage("Hệ thống đang có lỗi");
 			e.printStackTrace();
 		} finally {
 			if (conn != null) {
@@ -55,15 +53,12 @@ public class PlayGame {
 	/**
 	 * Kiểm tra ô chữ người chơi đoán
 	 * 
-	 * @param question
-	 *            : đối tượng câu hỏi
+	 * @param question : đối tượng câu hỏi
 	 * @return notice : thông báo
 	 * @throws SQLException
 	 */
 	public int checkOChu(Question question, String dapanPlayer) throws SQLException {
-		System.out.println(question.getDapan());
-		ConnectDB connect = new ConnectDB();
-		conn = connect.getConnectDB();
+		conn = getConnectDB();
 		int count = 0;
 		int parameterIndex = 1;
 		String sql = "select questionid, dapan " + "from question " + "where questionid= ? and dapan like ? ";
@@ -83,6 +78,7 @@ public class PlayGame {
 				}
 			}
 		} catch (Exception e) {
+			NoticeMessage.noticeMessage("Hệ thống đang có lỗi");
 			e.printStackTrace();
 		} finally {
 			if (conn != null) {
@@ -95,8 +91,7 @@ public class PlayGame {
 	/**
 	 * tìm vị trí ô chữ trong đáp án
 	 * 
-	 * @param question
-	 *            : thông tin câu hỏi
+	 * @param question : thông tin câu hỏi
 	 * @return vị trí ô chữ
 	 */
 	public ArrayList<Integer> locationOChu(Question question, String dapanPlayer) {
@@ -113,16 +108,14 @@ public class PlayGame {
 	/**
 	 * lấy thông tin câu hỏi theo topic
 	 * 
-	 * @param topic
-	 *            : chủ đề
+	 * @param topic : chủ đề
 	 * @return arraylistQuestion : list câu hỏi
 	 * @throws SQLException
 	 */
 	public ArrayList<Question> getQuestionInforByTopic(String topic) throws SQLException {
 		ArrayList<Question> arrayQuestion = new ArrayList<>();
 		Question question;
-		ConnectDB connect = new ConnectDB();
-		conn = connect.getConnectDB();
+		conn = getConnectDB();
 		int parameterIndex = 1;
 		String sql = "select questionid, question, dapan, dapantv " + "from question " + "where topic = ? ";
 		try {
@@ -151,8 +144,7 @@ public class PlayGame {
 	/**
 	 * Random câu hỏi từ arraylist câu hỏi
 	 * 
-	 * @param arrayQuestion
-	 *            : arraylist câu hỏi
+	 * @param arrayQuestion : arraylist câu hỏi
 	 * @return question : thông tin câu hỏi
 	 */
 	public Question randomQuestion(ArrayList<Question> arrayQuestion) {
@@ -176,8 +168,7 @@ public class PlayGame {
 	/**
 	 * chuyển đổi sang chữ cái
 	 * 
-	 * @param text
-	 *            : text đổi
+	 * @param text : text đổi
 	 * @return chữ cái
 	 */
 	public String convertText(String text) {

@@ -30,21 +30,22 @@ public class AdminJframe extends JFrame {
 	public static JTable tableManageQuestion;
 	public static JScrollPane spTable;
 
-	public AdminJframe() throws SQLException {
+	public AdminJframe() throws SQLException, IOException {
 		setTitle("Quản lý câu hỏi");
 		setSize(800, 550);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
 		setLocationRelativeTo(null);
-		try {
-			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src/image/adminframe.jpg")))));
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Hệ thống đang có lỗi");
-			e.printStackTrace();
-		}
+		
+		// set background
+		setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src/image/adminframe.jpg")))));
+		
+		// create button and label
 		createButton();
 		createJtextfiled();
+		
+		// show dữ liệu ra table
 		tableManageQuestion = new JTable();
 		spTable = new JScrollPane(tableManageQuestion);
 		JPanel panel = new JPanel();

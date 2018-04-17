@@ -22,7 +22,19 @@ public class WelcomeJframe extends JFrame {
 		setResizable(false);
 		setVisible(true);
 		setLocationRelativeTo(null);
+		
+		// set background
 		setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src/image/backgroup.jpg")))));
+		
+		// create button and label
+		createButton();
+		
+	}
+	
+	/**
+	 * Tạo button cho JFrame
+	 */
+	public void createButton() {
 		for (int i = 0; i < 1; i++) {
 			for (int j = 0; j < 4; j++) {
 				setLayout(null);

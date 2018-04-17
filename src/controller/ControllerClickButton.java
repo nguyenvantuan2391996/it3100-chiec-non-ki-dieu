@@ -26,6 +26,7 @@ public class ControllerClickButton implements ActionListener {
 				answer = JOptionPane.showInputDialog(null, "Đáp án của bạn là");
 				String notice = playGame.checkDapan(ControllerGame.question, answer);
 				NoticeMessage.noticeMessage(notice);
+				
 				// nếu khóa thành công tăng vòng đấu lên 1
 				if(playGame.lock(notice)) {
 					ControllerGame.round++;
@@ -49,11 +50,13 @@ public class ControllerClickButton implements ActionListener {
 						ControllerGame.gameJframe.labelOChu[integer].setIcon(new ImageIcon(img));
 						ControllerGame.oChu--;
 					}
+					
 					// mở hết các ô thông báo người chơi đoán ô chữ
 					if (ControllerGame.oChu == 0) {
 						answer = JOptionPane.showInputDialog(null, "Đáp án của bạn là");
 						String notice = playGame.checkDapan(ControllerGame.question, answer);
 						NoticeMessage.noticeMessage(notice);
+						
 						// nếu khóa thành công tăng vòng đấu lên 1
 						if(playGame.lock(notice)) {
 							ControllerGame.round++;

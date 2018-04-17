@@ -37,25 +37,35 @@ public class ControllerGame implements ActionListener, MouseListener {
 	public static int pointPlayer1;
 	public static int pointPlayer2;
 	public static int pointPlayer3;
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
+			
 			// click button new game
 			if (e.getSource() == WelcomeJframe.buttonMenu[0][0]) {
 				RunGame.welcomeJframe.setVisible(false);
 				playerJframe = new CreatePlayerJframe();
-			} // click button Admin
+			}
+			
+			// click button Admin
 			else if (e.getSource() == WelcomeJframe.buttonMenu[0][1]) {
 				RunGame.welcomeJframe.setVisible(false);
 				adminJframe = new AdminJframe();
-			} // click button help
+			}
+			
+			// click button help
 			else if (e.getSource() == WelcomeJframe.buttonMenu[0][2]) {
 				RunGame.welcomeJframe.setVisible(false);
 				helpJframe = new HelpJframe();
-			} // click button exit
+			}
+			
+			// click button exit
 			else if (e.getSource() == WelcomeJframe.buttonMenu[0][3]) {
 				RunGame.welcomeJframe.setVisible(false);
-			} // click button thêm
+			}
+			
+			// click button thêm
 			else if (e.getSource() == AdminJframe.buttonMenu[0][0]) {
 				// lấy dữ liệu từ view
 				Question question = new Question();
@@ -69,7 +79,9 @@ public class ControllerGame implements ActionListener, MouseListener {
 				NoticeMessage.noticeMessage(notice);
 				AdminJframe.showData();
 
-			} // click button sửa
+			}
+			
+			// click button sửa
 			else if (e.getSource() == AdminJframe.buttonMenu[0][1]) {
 				// lấy dữ liệu từ view
 				Question question = new Question();
@@ -83,7 +95,9 @@ public class ControllerGame implements ActionListener, MouseListener {
 				NoticeMessage.noticeMessage(notice);
 				AdminJframe.showData();
 
-			} // click button xóa
+			}
+			
+			// click button xóa
 			else if (e.getSource() == AdminJframe.buttonMenu[0][2]) {
 				// lấy dữ liệu từ view
 				Question question = new Question();
@@ -93,26 +107,36 @@ public class ControllerGame implements ActionListener, MouseListener {
 				NoticeMessage.noticeMessage(notice);
 				AdminJframe.showData();
 
-			} // click button back
+			}
+			
+			// click button back
 			else if (e.getSource() == AdminJframe.buttonMenu[0][3]) {
 				adminJframe.setVisible(false);
 				RunGame.welcomeJframe.setVisible(true);
-			} // click clear
+			}
+			
+			// click clear
 			else if (e.getSource() == AdminJframe.buttonMenu[0][4]) {
 				AdminJframe.jTextField[0][0].setText("");
 				AdminJframe.jTextField[0][1].setText("");
 				AdminJframe.jTextField[0][2].setText("");
 				AdminJframe.jTextField[0][3].setText("");
 				AdminJframe.jTextField[0][4].setText("");
-			} // click back help
+			}
+			
+			// click back help
 			else if (e.getSource() == HelpJframe.buttonHelp) {
 				helpJframe.setVisible(false);
 				RunGame.welcomeJframe.setVisible(true);
-			} // click back CreatePlayerJframe
+			}
+			
+			// click back CreatePlayerJframe
 			else if (e.getSource() == CreatePlayerJframe.buttonPlayer[0][0]) {
 				playerJframe.setVisible(false);
 				RunGame.welcomeJframe.setVisible(true);
-			} // click next CreatePlayerJframe
+			}
+			
+			// click next CreatePlayerJframe
 			else if (e.getSource() == CreatePlayerJframe.buttonPlayer[0][1]) {
 				// lấy dữ liệu từ view
 				String topic = playerJframe.jComboBox.getSelectedItem().toString();
@@ -146,10 +170,16 @@ public class ControllerGame implements ActionListener, MouseListener {
 					gameJframe.label[8].setText(String.valueOf(0));
 					gameJframe.label[9].setText(String.valueOf(0));
 				}
-			} // click next ở GameJframe
+			}
+			
+			// click next ở GameJframe
 			else if (e.getSource() == gameJframe.buttonNext) {
 				playerJframe.dispose(); // hủy đối tượng playerJframe cũ
 				playerJframe = new CreatePlayerJframe();
+				// set tên người chơi
+				playerJframe.jTextFieldPlayer[0][0].setText(player1);
+				playerJframe.jTextFieldPlayer[0][1].setText(player2);
+				playerJframe.jTextFieldPlayer[0][2].setText(player3);
 				gameJframe.setVisible(false);
 				gameJframe.dispose(); // hủy đối tượng gameJframe cũ
 			}

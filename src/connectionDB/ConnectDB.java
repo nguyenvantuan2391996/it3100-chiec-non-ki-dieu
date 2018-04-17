@@ -8,16 +8,17 @@ import java.util.Properties;
 import view.NoticeMessage;
 
 public class ConnectDB {
-	private Connection conn;
+	protected Connection conn;
 
 	public Connection getConnectDB() {
 		try {
 			Properties pro = new Properties();
 			pro.load(new FileInputStream("config.properties"));
-			Class.forName("com.mysql.jdbc.Driver");
+			String classforname = pro.getProperty("classforname");
 			String url = pro.getProperty("url");
 			String user = pro.getProperty("user");
 			String pass = pro.getProperty("pass");
+			Class.forName(classforname);
 			conn = (Connection) DriverManager.getConnection(url, user, pass);
 		} catch (Exception e) {
 			System.out.println("connect fail !");

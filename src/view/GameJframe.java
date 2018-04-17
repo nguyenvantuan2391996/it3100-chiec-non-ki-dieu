@@ -12,10 +12,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
 
-import controller.ControllerGame;
 import controller.ControllerClickButton;
+import controller.ControllerGame;
 
 public class GameJframe extends JFrame {
 	public static JButton buttonPlay[][] = new JButton[2][13];
@@ -23,22 +23,34 @@ public class GameJframe extends JFrame {
 	public static JButton buttonNext;
 	public static JLabel label[] = new JLabel[10];
 	public static JButton labelOChu[];
+	public static JLabel labelchiecnon;
+	public static JButton buttonRonate;
+	public static ImageIcon img;
 	
-	public GameJframe() {
+	public GameJframe() throws IOException {
 		setTitle("Chiếc Nón Kỳ Diệu");
 		setSize(800, 550);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setVisible(true);
 		setLocationRelativeTo(null);
-		try {
-			setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("src/image/gamejframe.jpg")))));
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Hệ thống đang có lỗi");
-			e.printStackTrace();
-		}
+		
+		// create button and label
 		createButton();
 		createLabel();
+		
+		//create chiếc nón
+		img = new ImageIcon("src/image/chiecnon.png");
+		JLabel chiecnon = new JLabel(img);
+		chiecnon.setSize(527, 518);
+		chiecnon.setLocation(550, 260);
+		add(chiecnon);
+		
+		
+		// set background
+		JLabel background = new JLabel(new ImageIcon("src/image/gamejframe.jpg"));
+		background.setSize(800, 550);
+		add(background);
 	}
 
 	/**
@@ -67,18 +79,27 @@ public class GameJframe extends JFrame {
 				buttonPlay[i][j].addActionListener(new ControllerClickButton());
 			}
 		}
+		
 		// button trả lời
 		buttonAnswer = new JButton("Trả lời");
 		buttonAnswer.setSize(75, 32);
 		buttonAnswer.setLocation(63, 400);
 		add(buttonAnswer);
 		buttonAnswer.addActionListener(new ControllerClickButton());
+		
 		// button next
 		buttonNext = new JButton("Next");
 		buttonNext.setSize(75, 32);
 		buttonNext.setLocation(145, 400);
 		add(buttonNext);
 		buttonNext.addActionListener(new ControllerGame());
+		
+		// button quay
+		buttonRonate = new JButton("Quay");
+		buttonRonate.setSize(75, 32);
+		buttonRonate.setLocation(480, 400);
+		buttonRonate.addActionListener(new ControllerGame());
+		add(buttonRonate);
 	}
 
 	/**
@@ -88,50 +109,60 @@ public class GameJframe extends JFrame {
 		for (int i = 0; i < 10; i++) {
 			label[i] = new JLabel();
 		}
+		
 		// label thông báo đoán ô chữ
 		label[0].setSize(386, 78);
 		label[0].setLocation(170, 240);
 		label[0].setForeground(Color.RED);
 		label[0].setFont(new Font("", Font.BOLD, 15));
 		add(label[0]);
+		
 		// label câu hỏi
 		label[1].setSize(540, 28);
 		label[1].setLocation(170, 230);
 		label[1].setFont(new Font("", Font.BOLD, 15));
 		add(label[1]);
+		
 		// label chủ đề
 		label[2].setSize(300, 28);
 		label[2].setLocation(10, 8);
 		add(label[2]);
+		
 		// label vòng
 		label[3].setSize(50, 28);
 		label[3].setLocation(10, 28);
 		add(label[3]);
+		
 		// label player 1
 		label[4].setSize(50, 28);
 		label[4].setLocation(500, 28);
 		label[4].setFont(new Font("", Font.BOLD, 15));
 		add(label[4]);
+		
 		// label player 2
 		label[5].setSize(50, 28);
 		label[5].setLocation(560, 28);
 		label[5].setFont(new Font("", Font.BOLD, 15));
 		add(label[5]);
+		
 		// label player 3
 		label[6].setSize(50, 28);
 		label[6].setLocation(620, 28);
 		label[6].setFont(new Font("", Font.BOLD, 15));
 		add(label[6]);
+		
 		// label điểm 1
 		label[7].setSize(50, 28);
 		label[7].setLocation(510, 56);
 		label[7].setFont(new Font("", Font.BOLD, 15));
 		add(label[7]);
+		
 		// label điểm 2
 		label[8].setSize(50, 28);
 		label[8].setLocation(570, 56);
 		label[8].setFont(new Font("", Font.BOLD, 15));
 		add(label[8]);
+		
 		// label điểm 3
 		label[9].setSize(50, 28);
 		label[9].setLocation(630, 56);
@@ -157,5 +188,9 @@ public class GameJframe extends JFrame {
 	 */
 	public void setNotice(String notice) {
 		label[0].setText(notice);
+	}
+	
+	public void createChiecNon() {
+		
 	}
 }
