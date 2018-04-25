@@ -2,7 +2,15 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.MediaTracker;
+import java.awt.Toolkit;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -13,11 +21,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
 
+import controller.ControllerChiecNon;
 import controller.ControllerClickButton;
 import controller.ControllerGame;
 
-public class GameJframe extends JFrame {
+public class GameJframe extends JFrame implements Runnable {
 	public static JButton buttonPlay[][] = new JButton[2][13];
 	public static JButton buttonAnswer;
 	public static JButton buttonNext;
@@ -25,9 +36,16 @@ public class GameJframe extends JFrame {
 	public static JButton labelOChu[];
 	public static JLabel labelchiecnon;
 	public static JButton buttonRonate;
-	public static ImageIcon img;
+	public static Image image;
+	public static JProgressBar pb = new JProgressBar(0, 0, 100);
+	int i = 300;
+	int j = 0;
 	
 	public GameJframe() throws IOException {
+		add(new ChiecNon());
+	}
+
+	public void paintGameFrame() {
 		setTitle("Chiếc Nón Kỳ Diệu");
 		setSize(800, 550);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,24 +53,33 @@ public class GameJframe extends JFrame {
 		setVisible(true);
 		setLocationRelativeTo(null);
 		
+		pb.setOrientation(JProgressBar.VERTICAL);
+		pb.setBounds(750, 30, 30, 150);
+		pb.setBackground(Color.white);
+		pb.setForeground(Color.blue);
+		pb.setStringPainted(true);
+		pb.setValue(0);
+		pb.setVisible(true);
+		add(pb);
+
+		// button quay
+		buttonRonate = new JButton("Quay");
+		buttonRonate.setSize(75, 32);
+		buttonRonate.setLocation(730, 200);
+		buttonRonate.addMouseListener(new ControllerChiecNon());
+		buttonRonate.addMouseMotionListener(new ControllerChiecNon());
+		add(buttonRonate);
+
 		// create button and label
 		createButton();
 		createLabel();
-		
-		//create chiếc nón
-		img = new ImageIcon("src/image/chiecnon.png");
-		JLabel chiecnon = new JLabel(img);
-		chiecnon.setSize(527, 518);
-		chiecnon.setLocation(550, 260);
-		add(chiecnon);
-		
+		createLabelOChu(ControllerGame.oChu);
 		
 		// set background
 		JLabel background = new JLabel(new ImageIcon("src/image/gamejframe.jpg"));
 		background.setSize(800, 550);
 		add(background);
 	}
-
 	/**
 	 * tạo buttton
 	 */
@@ -94,12 +121,7 @@ public class GameJframe extends JFrame {
 		add(buttonNext);
 		buttonNext.addActionListener(new ControllerGame());
 		
-		// button quay
-		buttonRonate = new JButton("Quay");
-		buttonRonate.setSize(75, 32);
-		buttonRonate.setLocation(480, 400);
-		buttonRonate.addActionListener(new ControllerGame());
-		add(buttonRonate);
+		
 	}
 
 	/**
@@ -189,8 +211,10 @@ public class GameJframe extends JFrame {
 	public void setNotice(String notice) {
 		label[0].setText(notice);
 	}
-	
-	public void createChiecNon() {
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -4,16 +4,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import model.ManageQuestion;
 import model.PlayGame;
 import model.Question;
 import view.AdminJframe;
+import view.ChiecNon;
 import view.CreatePlayerJframe;
 import view.GameJframe;
 import view.HelpJframe;
@@ -146,12 +149,15 @@ public class ControllerGame implements ActionListener, MouseListener {
 					player2 = playerJframe.jTextFieldPlayer[0][1].getText();
 					player3 = playerJframe.jTextFieldPlayer[0][2].getText();
 				}
-				playerJframe.setVisible(false);
-				gameJframe = new GameJframe();
 				PlayGame playGame = new PlayGame();
 				ArrayList<Question> arrayQuestion = playGame.getQuestionInforByTopic(topic);
 				question = playGame.randomQuestion(arrayQuestion); // lấy ngẫu nhiên câu hỏi cùng chủ đề
 				oChu = playGame.countOChu(question);
+				
+				playerJframe.setVisible(false);
+				gameJframe = new GameJframe();
+				gameJframe.paintGameFrame();
+				
 				// set dữ liệu cho view
 				gameJframe.label[0].setText("Chào mừng bạn đã đến vòng " + round + "");
 				gameJframe.label[1].setText(question.getQuestion());
@@ -222,8 +228,6 @@ public class ControllerGame implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+		
 	}
-
 }
