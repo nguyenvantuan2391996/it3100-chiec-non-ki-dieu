@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import connectionDB.ConnectDB;
+import controller.ControllerClickButton;
 import controller.ControllerGame;
+import view.GameJframe;
 import view.NoticeMessage;
 
 public class PlayGame extends ConnectDB {
@@ -244,21 +247,19 @@ public class PlayGame extends ConnectDB {
 		}
 		return false;
 	}
-	public static void main(String[] args) throws SQLException {
-		PlayGame a = new PlayGame();
-		Question question = new Question();
-		question.setQuestionid(10);
-		String answer = "Bồ Đào Nh";
-		System.out.println(a.checkDapan(question, answer));
-		// ArrayList<Question> q = a.getQuestionInforByTopic("Bóng Đá");
-		// Question question = a.randomQuestion(q);
-		// System.out.println(question.getDapan());
-		// String dapanPlayer = "O";
-		// System.out.println(a.checkOChu(question, dapanPlayer));
-		// for (Question question : q) {
-		// System.out.println(question.getQuestion());
-		// System.out.println(question.getDapan());
-		// System.out.println(question.getDapantv());
-		// }
+	/**
+	 * set color lượt chơi của người chơi
+	 */
+	public static void setLuotChoi() {
+		if(ControllerClickButton.luotchoi == 0) {
+			GameJframe.label[4].setForeground(Color.RED);
+			GameJframe.label[6].setForeground(Color.black);
+		} else if (ControllerClickButton.luotchoi == 1) {
+			GameJframe.label[5].setForeground(Color.RED);
+			GameJframe.label[4].setForeground(Color.black);
+		} else if (ControllerClickButton.luotchoi == 2) {
+			GameJframe.label[6].setForeground(Color.RED);
+			GameJframe.label[5].setForeground(Color.black);
+		}
 	}
 }

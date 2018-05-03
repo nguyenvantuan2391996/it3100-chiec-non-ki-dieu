@@ -32,17 +32,18 @@ public class GameJframe extends JFrame implements Runnable {
 	public static JButton buttonPlay[][] = new JButton[2][13];
 	public static JButton buttonAnswer;
 	public static JButton buttonNext;
-	public static JLabel label[] = new JLabel[10];
+	public static JLabel label[] = new JLabel[11];
 	public static JButton labelOChu[];
 	public static JLabel labelchiecnon;
 	public static JButton buttonRonate;
 	public static Image image;
-	public static JProgressBar pb = new JProgressBar(0, 0, 100);
+	public static JProgressBar pb;
+	public ChiecNon cn = new ChiecNon();
 	int i = 300;
 	int j = 0;
-	
+
 	public GameJframe() throws IOException {
-		add(new ChiecNon());
+		add(cn);
 	}
 
 	public void paintGameFrame() {
@@ -52,34 +53,57 @@ public class GameJframe extends JFrame implements Runnable {
 		setResizable(false);
 		setVisible(true);
 		setLocationRelativeTo(null);
+
+		// create luc ke
+		createLucKe();
 		
-		pb.setOrientation(JProgressBar.VERTICAL);
-		pb.setBounds(750, 30, 30, 150);
-		pb.setBackground(Color.white);
-		pb.setForeground(Color.blue);
-		pb.setStringPainted(true);
-		pb.setValue(0);
-		pb.setVisible(true);
-		add(pb);
-
-		// button quay
-		buttonRonate = new JButton("Quay");
-		buttonRonate.setSize(75, 32);
-		buttonRonate.setLocation(730, 200);
-		buttonRonate.addMouseListener(new ControllerChiecNon());
-		buttonRonate.addMouseMotionListener(new ControllerChiecNon());
-		add(buttonRonate);
-
+		// create button quay
+		createButtonQuay();
+		
 		// create button and label
 		createButton();
 		createLabel();
 		createLabelOChu(ControllerGame.oChu);
+
+		// set kim quay
+		JLabel kim = new JLabel(new ImageIcon("src/image/cursor.png"));
+		kim.setSize(30, 30);
+		kim.setLocation(670, 250);
+		add(kim);
 		
 		// set background
 		JLabel background = new JLabel(new ImageIcon("src/image/gamejframe.jpg"));
 		background.setSize(800, 550);
 		add(background);
+		
+		
 	}
+	
+	/**
+	 * create luc ke
+	 */
+	public void createLucKe() {
+		pb = new JProgressBar(0, 0, 100);
+		pb.setOrientation(JProgressBar.VERTICAL);
+		pb.setBounds(740, 28, 28, 100);
+		pb.setStringPainted(true);
+		pb.setVisible(true);
+		add(pb);
+	}
+	
+	/**
+	 * create button quay
+	 */
+	public void createButtonQuay() {
+		// button quay
+		buttonRonate = new JButton("Quay");
+		buttonRonate.setSize(75, 32);
+		buttonRonate.setLocation(720, 140);
+		buttonRonate.addMouseListener(new ControllerChiecNon());
+		buttonRonate.addMouseMotionListener(new ControllerChiecNon());
+		add(buttonRonate);
+	}
+
 	/**
 	 * tạo buttton
 	 */
@@ -106,90 +130,96 @@ public class GameJframe extends JFrame implements Runnable {
 				buttonPlay[i][j].addActionListener(new ControllerClickButton());
 			}
 		}
-		
+
 		// button trả lời
 		buttonAnswer = new JButton("Trả lời");
 		buttonAnswer.setSize(75, 32);
 		buttonAnswer.setLocation(63, 400);
 		add(buttonAnswer);
 		buttonAnswer.addActionListener(new ControllerClickButton());
-		
+
 		// button next
 		buttonNext = new JButton("Next");
 		buttonNext.setSize(75, 32);
 		buttonNext.setLocation(145, 400);
 		add(buttonNext);
 		buttonNext.addActionListener(new ControllerGame());
-		
-		
+
 	}
 
 	/**
 	 * tạo label
 	 */
 	public void createLabel() {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 11; i++) {
 			label[i] = new JLabel();
 		}
-		
+
 		// label thông báo đoán ô chữ
 		label[0].setSize(386, 78);
 		label[0].setLocation(170, 240);
 		label[0].setForeground(Color.RED);
 		label[0].setFont(new Font("", Font.BOLD, 15));
 		add(label[0]);
-		
+
 		// label câu hỏi
 		label[1].setSize(540, 28);
 		label[1].setLocation(170, 230);
 		label[1].setFont(new Font("", Font.BOLD, 15));
 		add(label[1]);
-		
+
 		// label chủ đề
 		label[2].setSize(300, 28);
 		label[2].setLocation(10, 8);
 		add(label[2]);
-		
+
 		// label vòng
 		label[3].setSize(50, 28);
 		label[3].setLocation(10, 28);
 		add(label[3]);
-		
+
 		// label player 1
 		label[4].setSize(50, 28);
 		label[4].setLocation(500, 28);
 		label[4].setFont(new Font("", Font.BOLD, 15));
 		add(label[4]);
-		
+
 		// label player 2
 		label[5].setSize(50, 28);
 		label[5].setLocation(560, 28);
 		label[5].setFont(new Font("", Font.BOLD, 15));
 		add(label[5]);
-		
+
 		// label player 3
 		label[6].setSize(50, 28);
 		label[6].setLocation(620, 28);
 		label[6].setFont(new Font("", Font.BOLD, 15));
 		add(label[6]);
-		
+
 		// label điểm 1
 		label[7].setSize(50, 28);
 		label[7].setLocation(510, 56);
 		label[7].setFont(new Font("", Font.BOLD, 15));
 		add(label[7]);
-		
+
 		// label điểm 2
 		label[8].setSize(50, 28);
 		label[8].setLocation(570, 56);
 		label[8].setFont(new Font("", Font.BOLD, 15));
 		add(label[8]);
-		
+
 		// label điểm 3
 		label[9].setSize(50, 28);
 		label[9].setLocation(630, 56);
 		label[9].setFont(new Font("", Font.BOLD, 15));
 		add(label[9]);
+		
+		// label thông báo điểm quay
+		label[10].setSize(386, 78);
+		label[10].setLocation(170, 280);
+		label[10].setForeground(Color.RED);
+		label[10].setFont(new Font("", Font.BOLD, 15));
+		add(label[10]);
 	}
 
 	/**
@@ -204,9 +234,12 @@ public class GameJframe extends JFrame implements Runnable {
 			add(labelOChu[i]);
 		}
 	}
+
 	/**
 	 * set thông báo khi người chơi chọn chữ
-	 * @param notice : thông báo
+	 * 
+	 * @param notice
+	 *            : thông báo
 	 */
 	public void setNotice(String notice) {
 		label[0].setText(notice);
@@ -215,6 +248,6 @@ public class GameJframe extends JFrame implements Runnable {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

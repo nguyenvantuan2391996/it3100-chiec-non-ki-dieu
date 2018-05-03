@@ -9,14 +9,14 @@ import javax.swing.JPanel;
 import view.ChiecNon;
 import view.GameJframe;
 
-public class ControllerChiecNon extends JPanel implements Runnable, MouseMotionListener, MouseListener {
+public class ControllerChiecNon extends JPanel implements MouseMotionListener, MouseListener, Runnable {
 
-	public static Thread mythread = new Thread(new ControllerChiecNon());
+	public static Thread mythread;
 	public static int lucQuay;
+	public static int percent;
 	
 	@Override
 	public void run() {
-		int percent = 0;
 		for (int i = 0; i <= 100; i++) {
 			percent = i;
 			try {
@@ -31,7 +31,6 @@ public class ControllerChiecNon extends JPanel implements Runnable, MouseMotionL
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -48,16 +47,19 @@ public class ControllerChiecNon extends JPanel implements Runnable, MouseMotionL
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		mythread = new Thread(new ControllerChiecNon());
+		mythread.start();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		mythread.stop();
 		lucQuay = GameJframe.pb.getValue();
-		ChiecNon.i = (lucQuay * 50) / 10;
+		GameJframe.pb.setValue(lucQuay);
+		ChiecNon.i = lucQuay * 5;
 		ChiecNon.heSoGocQuay = lucQuay / 10;
+		ChiecNon.timequay = lucQuay / 10 * lucQuay * 5;
+		System.out.println("luc quay la " + lucQuay);
 		lucQuay = 0;
 	}
 
@@ -69,11 +71,7 @@ public class ControllerChiecNon extends JPanel implements Runnable, MouseMotionL
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		try {
-			mythread.start();
-		} catch (Exception e2) {
-
-		}
+		// TODO Auto-generated method stub
+		
 	}
-
 }

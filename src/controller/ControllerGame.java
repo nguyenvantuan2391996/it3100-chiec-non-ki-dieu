@@ -1,5 +1,7 @@
 package controller;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -40,6 +42,7 @@ public class ControllerGame implements ActionListener, MouseListener {
 	public static int pointPlayer1;
 	public static int pointPlayer2;
 	public static int pointPlayer3;
+	public static int point;
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -157,25 +160,22 @@ public class ControllerGame implements ActionListener, MouseListener {
 				playerJframe.setVisible(false);
 				gameJframe = new GameJframe();
 				gameJframe.paintGameFrame();
-				
+
 				// set dữ liệu cho view
 				gameJframe.label[0].setText("Chào mừng bạn đã đến vòng " + round + "");
+				GameJframe.label[10].setText("");
 				gameJframe.label[1].setText(question.getQuestion());
 				gameJframe.label[2].setText("Chủ đề : " + topic + "");
 				gameJframe.label[3].setText("Vòng " + round + "");
+				PlayGame.setLuotChoi();
 				gameJframe.label[4].setText(player1);
 				gameJframe.label[5].setText(player2);
 				gameJframe.label[6].setText(player3);
 				gameJframe.createLabelOChu(oChu);
-				if(pointPlayer1 != 0 | pointPlayer2 != 0 | pointPlayer3 != 0) {
-					gameJframe.label[7].setText(String.valueOf(pointPlayer1));
-					gameJframe.label[8].setText(String.valueOf(pointPlayer2));
-					gameJframe.label[9].setText(String.valueOf(pointPlayer3));
-				} else {
-					gameJframe.label[7].setText(String.valueOf(0));
-					gameJframe.label[8].setText(String.valueOf(0));
-					gameJframe.label[9].setText(String.valueOf(0));
-				}
+				// set view diem
+				gameJframe.label[7].setText(String.valueOf(0));
+				gameJframe.label[8].setText(String.valueOf(0));
+				gameJframe.label[9].setText(String.valueOf(0));
 			}
 			
 			// click next ở GameJframe
