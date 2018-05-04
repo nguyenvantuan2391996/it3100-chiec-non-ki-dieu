@@ -1,24 +1,15 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.Label;
-import java.awt.MediaTracker;
-import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import controller.ControllerChiecNon;
 import controller.ControllerClickButton;
 import controller.ControllerGame;
 import model.PlayGame;
@@ -50,7 +41,7 @@ public class ChiecNon extends JPanel {
 				System.out.println(e);
 			}
 		}
-		gocXoay = 3 * k--;
+		gocXoay = 3 * k-- + 1;
 		at.rotate(Math.toRadians(gocXoay), img.getWidth() / 2, img.getHeight() / 2);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.drawImage(img, at, null);
@@ -61,7 +52,7 @@ public class ChiecNon extends JPanel {
 			// lấy điểm theo góc xoay được
 			int goc = gocXoay % 360;
 			System.out.println("góc"+goc);
-			if(goc < 0 && goc > -18 ) {
+			if(goc <= 0 && goc > -18 ) {
 				ControllerGame.point = 1; // mất điểm
 				GameJframe.label[10].setText("Bạn đã quay vào ô mất điểm");
 			} else if (goc <= -18 && goc > -36){
@@ -117,7 +108,7 @@ public class ChiecNon extends JPanel {
 				GameJframe.label[10].setText("Bạn đã quay vào ô nhân đôi");
 			} else if (goc <= -324 && goc > -342){
 				ControllerGame.point = 200;
-			} else if (goc <= -342 && goc >= -360){
+			} else if (goc <= -342 && goc > -360){
 				ControllerGame.point = 100;
 			}
 			if (ControllerGame.point != 0 && ControllerGame.point != 1 && ControllerGame.point != 2 && ControllerGame.point != 3 && ControllerGame.point != 5) {

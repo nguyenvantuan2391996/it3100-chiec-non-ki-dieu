@@ -1,7 +1,5 @@
 package model;
 
-import controller.ControllerGame;
-
 public class ManagePoint {
 	public static int pointPlayer1Round;
 	public static int pointPlayer2Round;

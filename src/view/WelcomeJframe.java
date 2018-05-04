@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Button;
 import java.io.File;
 import java.io.IOException;
 

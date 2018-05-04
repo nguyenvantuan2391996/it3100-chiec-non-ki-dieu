@@ -1,29 +1,21 @@
 package controller;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.sql.SQLException;
 import java.util.ArrayList;
-
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 import model.ManageQuestion;
 import model.PlayGame;
 import model.Question;
 import view.AdminJframe;
-import view.ChiecNon;
 import view.CreatePlayerJframe;
 import view.GameJframe;
 import view.HelpJframe;
 import view.NoticeMessage;
 import view.RunGame;
+import view.SpecialGameRound;
 import view.WelcomeJframe;
 
 public class ControllerGame implements ActionListener, MouseListener {
@@ -31,6 +23,7 @@ public class ControllerGame implements ActionListener, MouseListener {
 	public static HelpJframe helpJframe;
 	public static CreatePlayerJframe playerJframe;
 	public static GameJframe gameJframe;
+	public static SpecialGameRound specialGameRound;
 	public ManageQuestion manageQuestion = new ManageQuestion();
 	public static Question question = new Question();
 	public static int oChu;
@@ -43,34 +36,34 @@ public class ControllerGame implements ActionListener, MouseListener {
 	public static int pointPlayer2;
 	public static int pointPlayer3;
 	public static int point;
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			
+
 			// click button new game
 			if (e.getSource() == WelcomeJframe.buttonMenu[0][0]) {
 				RunGame.welcomeJframe.setVisible(false);
 				playerJframe = new CreatePlayerJframe();
 			}
-			
+
 			// click button Admin
 			else if (e.getSource() == WelcomeJframe.buttonMenu[0][1]) {
 				RunGame.welcomeJframe.setVisible(false);
 				adminJframe = new AdminJframe();
 			}
-			
+
 			// click button help
 			else if (e.getSource() == WelcomeJframe.buttonMenu[0][2]) {
 				RunGame.welcomeJframe.setVisible(false);
 				helpJframe = new HelpJframe();
 			}
-			
+
 			// click button exit
 			else if (e.getSource() == WelcomeJframe.buttonMenu[0][3]) {
 				RunGame.welcomeJframe.setVisible(false);
 			}
-			
+
 			// click button thêm
 			else if (e.getSource() == AdminJframe.buttonMenu[0][0]) {
 				// lấy dữ liệu từ view
@@ -86,7 +79,7 @@ public class ControllerGame implements ActionListener, MouseListener {
 				AdminJframe.showData();
 
 			}
-			
+
 			// click button sửa
 			else if (e.getSource() == AdminJframe.buttonMenu[0][1]) {
 				// lấy dữ liệu từ view
@@ -102,7 +95,7 @@ public class ControllerGame implements ActionListener, MouseListener {
 				AdminJframe.showData();
 
 			}
-			
+
 			// click button xóa
 			else if (e.getSource() == AdminJframe.buttonMenu[0][2]) {
 				// lấy dữ liệu từ view
@@ -114,13 +107,13 @@ public class ControllerGame implements ActionListener, MouseListener {
 				AdminJframe.showData();
 
 			}
-			
+
 			// click button back
 			else if (e.getSource() == AdminJframe.buttonMenu[0][3]) {
 				adminJframe.setVisible(false);
 				RunGame.welcomeJframe.setVisible(true);
 			}
-			
+
 			// click clear
 			else if (e.getSource() == AdminJframe.buttonMenu[0][4]) {
 				AdminJframe.jTextField[0][0].setText("");
@@ -129,25 +122,25 @@ public class ControllerGame implements ActionListener, MouseListener {
 				AdminJframe.jTextField[0][3].setText("");
 				AdminJframe.jTextField[0][4].setText("");
 			}
-			
+
 			// click back help
 			else if (e.getSource() == HelpJframe.buttonHelp) {
 				helpJframe.setVisible(false);
 				RunGame.welcomeJframe.setVisible(true);
 			}
-			
+
 			// click back CreatePlayerJframe
 			else if (e.getSource() == CreatePlayerJframe.buttonPlayer[0][0]) {
 				playerJframe.setVisible(false);
 				RunGame.welcomeJframe.setVisible(true);
 			}
-			
+
 			// click next CreatePlayerJframe
 			else if (e.getSource() == CreatePlayerJframe.buttonPlayer[0][1]) {
 				// lấy dữ liệu từ view
 				String topic = playerJframe.jComboBox.getSelectedItem().toString();
 				listTopicUsed.add(topic);
-				if(player1 == null | player2 == null | player3 == null) {
+				if (player1 == null | player2 == null | player3 == null) {
 					player1 = playerJframe.jTextFieldPlayer[0][0].getText();
 					player2 = playerJframe.jTextFieldPlayer[0][1].getText();
 					player3 = playerJframe.jTextFieldPlayer[0][2].getText();
@@ -156,14 +149,15 @@ public class ControllerGame implements ActionListener, MouseListener {
 				ArrayList<Question> arrayQuestion = playGame.getQuestionInforByTopic(topic);
 				question = playGame.randomQuestion(arrayQuestion); // lấy ngẫu nhiên câu hỏi cùng chủ đề
 				oChu = playGame.countOChu(question);
-				
+
 				playerJframe.setVisible(false);
 				gameJframe = new GameJframe();
 				gameJframe.paintGameFrame();
 
 				// set dữ liệu cho view
 				gameJframe.label[0].setText("Chào mừng bạn đã đến vòng " + round + "");
-				GameJframe.label[10].setText("");
+				GameJframe.label[10].setText(" ");
+				gameJframe.buttonNext.setEnabled(false);
 				gameJframe.label[1].setText(question.getQuestion());
 				gameJframe.label[2].setText("Chủ đề : " + topic + "");
 				gameJframe.label[3].setText("Vòng " + round + "");
@@ -173,11 +167,14 @@ public class ControllerGame implements ActionListener, MouseListener {
 				gameJframe.label[6].setText(player3);
 				gameJframe.createLabelOChu(oChu);
 				// set view diem
-				gameJframe.label[7].setText(String.valueOf(0));
-				gameJframe.label[8].setText(String.valueOf(0));
-				gameJframe.label[9].setText(String.valueOf(0));
+				pointPlayer1 = 0;
+				pointPlayer2 = 0;
+				pointPlayer3 = 0;
+				gameJframe.label[7].setText(String.valueOf(pointPlayer1));
+				gameJframe.label[8].setText(String.valueOf(pointPlayer2));
+				gameJframe.label[9].setText(String.valueOf(pointPlayer3));
 			}
-			
+
 			// click next ở GameJframe
 			else if (e.getSource() == gameJframe.buttonNext) {
 				playerJframe.dispose(); // hủy đối tượng playerJframe cũ
@@ -188,6 +185,24 @@ public class ControllerGame implements ActionListener, MouseListener {
 				playerJframe.jTextFieldPlayer[0][2].setText(player3);
 				gameJframe.setVisible(false);
 				gameJframe.dispose(); // hủy đối tượng gameJframe cũ
+			}
+			
+			// click button ok statisticJfrane
+			else if(e.getSource() == ControllerClickButton.statisticJframe.buttonRoundSpecial) {
+				PlayGame playGame = new PlayGame();
+				ArrayList<Question> arrayQuestion = playGame.getQuestionSpecial();
+				question = playGame.randomQuestion(arrayQuestion); // lấy ngẫu nhiên câu hỏi cùng chủ đề
+				oChu = playGame.countOChu(question);
+				
+				// hủy và tắt bỏ jframe
+				gameJframe.dispose();
+				gameJframe.setVisible(false);
+				ControllerClickButton.statisticJframe.dispose();
+				ControllerClickButton.statisticJframe.setVisible(false);
+				
+				specialGameRound = new SpecialGameRound();
+				specialGameRound.setVisible(true);
+				specialGameRound.label[1].setText(question.getQuestion());
 			}
 		} catch (Exception e2) {
 			e2.printStackTrace();
@@ -228,6 +243,6 @@ public class ControllerGame implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		
+
 	}
 }

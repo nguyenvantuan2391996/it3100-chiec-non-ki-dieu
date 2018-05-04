@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -12,7 +11,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;

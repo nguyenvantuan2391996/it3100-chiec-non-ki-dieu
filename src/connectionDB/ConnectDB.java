@@ -5,8 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.Properties;
 
-import view.NoticeMessage;
-
 public class ConnectDB {
 	protected Connection conn;
 

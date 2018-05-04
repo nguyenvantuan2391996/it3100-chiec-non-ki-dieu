@@ -11,7 +11,7 @@ import view.GameJframe;
 
 public class ControllerChiecNon extends JPanel implements MouseMotionListener, MouseListener, Runnable {
 
-	public static Thread mythread;
+	public Thread mythread;
 	public static int lucQuay;
 	public static int percent;
 	

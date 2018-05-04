@@ -1,7 +1,6 @@
 package model;
 
 import java.awt.Color;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,6 +12,7 @@ import controller.ControllerClickButton;
 import controller.ControllerGame;
 import view.GameJframe;
 import view.NoticeMessage;
+import view.SpecialGameRound;
 
 public class PlayGame extends ConnectDB {
 	private PreparedStatement stmt;
@@ -22,16 +22,20 @@ public class PlayGame extends ConnectDB {
 	 * Kiểm tra đáp án của người chơi với đáp án câu hỏi
 	 * 
 	 * @param question : đối tượng câu hỏi
+	 * @param round : vòng đấu
 	 * @return notice : thông báo
 	 * @throws SQLException
 	 */
-	public String checkDapan(Question question, String answer) throws SQLException {
+	public String checkDapan(Question question, String answer, int round) throws SQLException {
 		conn = getConnectDB();
 		String notice = "";
 		int parameterIndex = 1;
-		String sql = "select questionid "
-					+"from question "
-					+"where dapantv = ? and questionid = ? ";
+		String sql = "select questionid from question "
+				   + "where dapantv = ? and questionid = ? ";
+		if (round == 4) {
+			sql = "select questionspecialid from questionspecial "
+				+ "where dapantv = ? and questionspecialid = ? ";
+		}
 		try {
 			stmt = conn.prepareStatement(sql);
 			stmt.setString(parameterIndex++, answer);
@@ -55,16 +59,21 @@ public class PlayGame extends ConnectDB {
 
 	/**
 	 * Kiểm tra ô chữ người chơi đoán
-	 * 
 	 * @param question : đối tượng câu hỏi
+	 * @param round : vòng đấu
 	 * @return notice : thông báo
 	 * @throws SQLException
 	 */
-	public int checkOChu(Question question, String dapanPlayer) throws SQLException {
+	public int checkOChu(Question question, String dapanPlayer, int round) throws SQLException {
 		conn = getConnectDB();
 		int count = 0;
 		int parameterIndex = 1;
-		String sql = "select questionid, dapan " + "from question " + "where questionid= ? and dapan like ? ";
+		String sql = "select questionid, dapan from question "
+				   + "where questionid= ? and dapan like ? ";
+		if (round == 4) {
+			sql = "select questionspecialid, dapan from questionspecial "
+				+ "where questionspecialid= ? and dapan like ? ";
+		}
 		try {
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(parameterIndex++, question.getQuestionid());
@@ -94,7 +103,8 @@ public class PlayGame extends ConnectDB {
 	/**
 	 * tìm vị trí ô chữ trong đáp án
 	 * 
-	 * @param question : thông tin câu hỏi
+	 * @param question
+	 *            : thông tin câu hỏi
 	 * @return vị trí ô chữ
 	 */
 	public ArrayList<Integer> locationOChu(Question question, String dapanPlayer) {
@@ -111,7 +121,8 @@ public class PlayGame extends ConnectDB {
 	/**
 	 * lấy thông tin câu hỏi theo topic
 	 * 
-	 * @param topic : chủ đề
+	 * @param topic
+	 *            : chủ đề
 	 * @return arraylistQuestion : list câu hỏi
 	 * @throws SQLException
 	 */
@@ -145,9 +156,44 @@ public class PlayGame extends ConnectDB {
 	}
 
 	/**
+	 * lấy thông tin câu hỏi vòng đặc biệt
+	 * 
+	 * @return arraylistQuestion : list câu hỏi
+	 * @throws SQLException
+	 */
+	public ArrayList<Question> getQuestionSpecial() throws SQLException {
+		ArrayList<Question> arrayQuestion = new ArrayList<>();
+		Question question;
+		conn = getConnectDB();
+		String sql = "select questionspecialid, question, dapan, dapantv "
+				   + "from questionspecial";
+		try {
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			while (rs.next()) {
+				question = new Question();
+				question.setQuestionid(Integer.valueOf(rs.getString("questionspecialid")));
+				question.setQuestion(rs.getString("question"));
+				question.setDapan(rs.getString("dapan"));
+				question.setDapantv(rs.getString("dapantv"));
+				arrayQuestion.add(question);
+			}
+		} catch (Exception e) {
+			NoticeMessage.noticeMessage("Hệ thống đang có lỗi");
+			e.printStackTrace();
+		} finally {
+			if (conn != null) {
+				conn.close();
+			}
+		}
+		return arrayQuestion;
+	}
+
+	/**
 	 * Random câu hỏi từ arraylist câu hỏi
 	 * 
-	 * @param arrayQuestion : arraylist câu hỏi
+	 * @param arrayQuestion
+	 *            : arraylist câu hỏi
 	 * @return question : thông tin câu hỏi
 	 */
 	public Question randomQuestion(ArrayList<Question> arrayQuestion) {
@@ -171,7 +217,8 @@ public class PlayGame extends ConnectDB {
 	/**
 	 * chuyển đổi sang chữ cái
 	 * 
-	 * @param text : text đổi
+	 * @param text
+	 *            : text đổi
 	 * @return chữ cái
 	 */
 	public String convertText(String text) {
@@ -233,6 +280,7 @@ public class PlayGame extends ConnectDB {
 
 	/**
 	 * khóa ô chữ
+	 * 
 	 * @param notice : thông báo
 	 * @return true khóa thành công và ngược lại
 	 */
@@ -245,13 +293,22 @@ public class PlayGame extends ConnectDB {
 			}
 			return true;
 		}
+		// hết giờ -> khóa
+		else if ("Time Out".equals(notice)) {
+			for (int i = 0; i < 2; i++) {
+				for (int j = 0; j < 13; j++) {
+					SpecialGameRound.buttonPlay[i][j].setEnabled(false);
+				}
+			}
+		}
 		return false;
 	}
+
 	/**
 	 * set color lượt chơi của người chơi
 	 */
 	public static void setLuotChoi() {
-		if(ControllerClickButton.luotchoi == 0) {
+		if (ControllerClickButton.luotchoi == 0) {
 			GameJframe.label[4].setForeground(Color.RED);
 			GameJframe.label[6].setForeground(Color.black);
 		} else if (ControllerClickButton.luotchoi == 1) {

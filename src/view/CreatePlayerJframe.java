@@ -1,22 +1,17 @@
 package view;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import controller.ControllerGame;
 import model.ManageQuestion;
-import model.Question;
 
 public class CreatePlayerJframe extends JFrame {
 	public static JButton buttonPlayer[][] = new JButton[1][2];

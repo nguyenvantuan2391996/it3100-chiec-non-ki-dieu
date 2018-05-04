@@ -2,16 +2,7 @@ package view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.MediaTracker;
-import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -20,33 +11,30 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.SwingUtilities;
 
 import controller.ControllerChiecNon;
 import controller.ControllerClickButton;
 import controller.ControllerGame;
 
-public class GameJframe extends JFrame implements Runnable {
+public class GameJframe extends JFrame {
 	public static JButton buttonPlay[][] = new JButton[2][13];
 	public static JButton buttonAnswer;
 	public static JButton buttonNext;
 	public static JLabel label[] = new JLabel[11];
 	public static JButton labelOChu[];
-	public static JLabel labelchiecnon;
 	public static JButton buttonRonate;
-	public static Image image;
 	public static JProgressBar pb;
 	public ChiecNon cn = new ChiecNon();
 	int i = 300;
 	int j = 0;
 
-	public GameJframe() throws IOException {
-		add(cn);
-	}
+//	public GameJframe() {
+//		add(cn);
+//	}
 
 	public void paintGameFrame() {
+		add(cn);
 		setTitle("Chiếc Nón Kỳ Diệu");
 		setSize(800, 550);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -243,11 +231,5 @@ public class GameJframe extends JFrame implements Runnable {
 	 */
 	public void setNotice(String notice) {
 		label[0].setText(notice);
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
-
 	}
 }
