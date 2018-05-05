@@ -20,7 +20,7 @@ public class ManageQuestion extends ConnectDB {
 	 * @throws SQLException
 	 */
 	public String addQuestion(Question question) throws SQLException {
-		conn = getConnectDB();
+		conn = openConnectDB();
 		String notice = "";
 		int parameterIndex = 1;
 		String sql = "insert into question(questionid, question, topic, dapan, dapantv) "
@@ -62,7 +62,7 @@ public class ManageQuestion extends ConnectDB {
 	 * @throws SQLException
 	 */
 	public String editQuestion(Question question) throws SQLException {
-		conn = getConnectDB();
+		conn = openConnectDB();
 		String notice = "";
 		int parameterIndex = 1;
 		String sql = "update question "
@@ -94,7 +94,7 @@ public class ManageQuestion extends ConnectDB {
 	 * @throws SQLException
 	 */
 	public String deleteQuestion(Question question) throws SQLException {
-		conn = getConnectDB();
+		conn = openConnectDB();
 		String notice = "";
 		int parameterIndex = 1;
 		String sql = "delete from question "
@@ -123,7 +123,7 @@ public class ManageQuestion extends ConnectDB {
 	public ArrayList<Question> getData() throws SQLException {
 		ArrayList<Question> arrayQuestion = new ArrayList<>();
 		Question question;
-		conn = getConnectDB();
+		conn = openConnectDB();
 		int parameterIndex = 1;
 		String sql = "select questionid, question, topic, dapan, dapantv "
 					+"from question";
@@ -158,7 +158,7 @@ public class ManageQuestion extends ConnectDB {
 	 */
 	public ArrayList<String> getTopic() throws SQLException {
 		ArrayList<String> list = new ArrayList<>();
-		conn = getConnectDB();
+		conn = openConnectDB();
 		int parameterIndex = 0;
 		String sql = "select distinct topic "
 					+"from question ";

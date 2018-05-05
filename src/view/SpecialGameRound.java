@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.Font;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,15 +29,16 @@ public class SpecialGameRound extends GameJframe {
 		
 		// create button đếm thời gian
 		buttonTime = new JButton("Start");
-		buttonTime.setSize(100, 32);
+		buttonTime.setSize(80, 32);
 		buttonTime.setLocation(650, 140);
 		buttonTime.addActionListener(new ControllerStratTime());
 		add(buttonTime);
 		
 		// create label đếm thời gian
 		labelTime = new JLabel();
-		labelTime.setSize(100, 32);
-		labelTime.setLocation(680, 100);
+		labelTime.setFont(new Font("", Font.BOLD, 28));
+		labelTime.setSize(100, 80);
+		labelTime.setLocation(680, 40);
 		add(labelTime);
 		
 		// set background

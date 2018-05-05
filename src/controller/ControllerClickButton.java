@@ -20,6 +20,7 @@ public class ControllerClickButton implements ActionListener {
 	public static PlayGame playGame = new PlayGame();
 	public static String answer;
 	public static int luotchoi;
+	public static int themluot;
 	public static StatisticJframe statisticJframe;
 	
 	@Override
@@ -84,12 +85,16 @@ public class ControllerClickButton implements ActionListener {
 
 				// nếu tl không có -> chuyển lượt chơi
 				if (count == 0) {
-					if (luotchoi == 2) {
-						luotchoi = 0;
+					if (themluot == 1) {
+						themluot--;
 					} else {
-						luotchoi++;
+						if (luotchoi == 2) {
+							luotchoi = 0;
+						} else {
+							luotchoi++;
+						}
+						PlayGame.setLuotChoi();
 					}
-					PlayGame.setLuotChoi();
 				} else if (count != 0 && ControllerGame.round != 4) {
 					// nếu có ô chữ -> set điểm người chơi
 					if (ControllerGame.point == 1) {
@@ -105,6 +110,9 @@ public class ControllerClickButton implements ActionListener {
 						}
 					} else if (ControllerGame.point == 2) {
 						// thêm lượt
+						if (themluot == 0) {
+							themluot++;
+						}
 					} else if (ControllerGame.point == 3) {
 						if (luotchoi == 0) {
 							ControllerGame.pointPlayer1 = ManagePoint.getPointAnswerTrueSpecial("chiadoi",

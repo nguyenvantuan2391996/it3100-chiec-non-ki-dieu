@@ -27,7 +27,7 @@ public class PlayGame extends ConnectDB {
 	 * @throws SQLException
 	 */
 	public String checkDapan(Question question, String answer, int round) throws SQLException {
-		conn = getConnectDB();
+		conn = openConnectDB();
 		String notice = "";
 		int parameterIndex = 1;
 		String sql = "select questionid from question "
@@ -65,7 +65,7 @@ public class PlayGame extends ConnectDB {
 	 * @throws SQLException
 	 */
 	public int checkOChu(Question question, String dapanPlayer, int round) throws SQLException {
-		conn = getConnectDB();
+		conn = openConnectDB();
 		int count = 0;
 		int parameterIndex = 1;
 		String sql = "select questionid, dapan from question "
@@ -129,7 +129,7 @@ public class PlayGame extends ConnectDB {
 	public ArrayList<Question> getQuestionInforByTopic(String topic) throws SQLException {
 		ArrayList<Question> arrayQuestion = new ArrayList<>();
 		Question question;
-		conn = getConnectDB();
+		conn = openConnectDB();
 		int parameterIndex = 1;
 		String sql = "select questionid, question, dapan, dapantv " + "from question " + "where topic = ? ";
 		try {
@@ -164,7 +164,7 @@ public class PlayGame extends ConnectDB {
 	public ArrayList<Question> getQuestionSpecial() throws SQLException {
 		ArrayList<Question> arrayQuestion = new ArrayList<>();
 		Question question;
-		conn = getConnectDB();
+		conn = openConnectDB();
 		String sql = "select questionspecialid, question, dapan, dapantv "
 				   + "from questionspecial";
 		try {
