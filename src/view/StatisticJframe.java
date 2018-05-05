@@ -13,7 +13,7 @@ import controller.ControllerGame;
 
 public class StatisticJframe extends JFrame {
 	public static JLabel labelStatistic[][] = new JLabel[1][3];
-	public static JLabel labelKetQua = new JLabel("aaaaaaaaaaaaaaaaaaaaaaaaaa");
+	public static JLabel labelKetQua = new JLabel();
 	public static JButton buttonRoundSpecial;
 	public static JPanel panelbuttonRoundSpecial;
 
@@ -43,7 +43,7 @@ public class StatisticJframe extends JFrame {
 	public void createJLabel() {
 		for (int i = 0; i < 1; i++) {
 			for (int j = 0; j < 3; j++) {
-				labelStatistic[i][j] = new JLabel("jasbdjbja");
+				labelStatistic[i][j] = new JLabel();
 				labelStatistic[i][j].setSize(150, 25);
 				labelStatistic[i][j].setLocation(180, (j + 1) * 25);
 				add(labelStatistic[i][j]);

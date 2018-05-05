@@ -103,8 +103,7 @@ public class PlayGame extends ConnectDB {
 	/**
 	 * tìm vị trí ô chữ trong đáp án
 	 * 
-	 * @param question
-	 *            : thông tin câu hỏi
+	 * @param question : thông tin câu hỏi
 	 * @return vị trí ô chữ
 	 */
 	public ArrayList<Integer> locationOChu(Question question, String dapanPlayer) {
@@ -121,8 +120,7 @@ public class PlayGame extends ConnectDB {
 	/**
 	 * lấy thông tin câu hỏi theo topic
 	 * 
-	 * @param topic
-	 *            : chủ đề
+	 * @param topic : chủ đề
 	 * @return arraylistQuestion : list câu hỏi
 	 * @throws SQLException
 	 */
@@ -199,7 +197,7 @@ public class PlayGame extends ConnectDB {
 	public Question randomQuestion(ArrayList<Question> arrayQuestion) {
 		Question question = new Question();
 		Random rn = new Random();
-		question = arrayQuestion.get(rn.nextInt(arrayQuestion.size() - 1));
+		question = arrayQuestion.get(rn.nextInt(arrayQuestion.size()));
 		return question;
 	}
 
@@ -317,6 +315,16 @@ public class PlayGame extends ConnectDB {
 		} else if (ControllerClickButton.luotchoi == 2) {
 			GameJframe.label[6].setForeground(Color.RED);
 			GameJframe.label[5].setForeground(Color.black);
+		}
+	}
+	/**
+	 * đổi lượt chơi
+	 */
+	public static void swapLuotChoi() {
+		if (ControllerClickButton.luotchoi == 2) {
+			ControllerClickButton.luotchoi = 0;
+		} else {
+			ControllerClickButton.luotchoi++;
 		}
 	}
 }

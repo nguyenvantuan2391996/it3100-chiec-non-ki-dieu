@@ -30,11 +30,7 @@ public class ControllerClickButton implements ActionListener {
 				answer = JOptionPane.showInputDialog(null, "Đáp án của bạn là");
 				String notice = playGame.checkDapan(ControllerGame.question, answer, ControllerGame.round);
 				if ("Rất tiếc bạn đã trả lời sai".equals(notice)) {	
-					if (luotchoi == 2) {
-						luotchoi = 0;
-					} else {
-						luotchoi++;
-					}
+					PlayGame.swapLuotChoi();
 					PlayGame.setLuotChoi();
 				} else {
 					GameJframe.buttonAnswer.setEnabled(false);
@@ -82,17 +78,57 @@ public class ControllerClickButton implements ActionListener {
 				String idImage = String.valueOf(i) + String.valueOf(j);
 				String dapanPlayer = playGame.convertText(ControllerGame.gameJframe.buttonPlay[i][j].getName()); // lấy tên ảnh -> ô chữ
 				int count = playGame.checkOChu(ControllerGame.question, dapanPlayer, ControllerGame.round);
+				
+				if (count != 0) {
+					ControllerGame.gameJframe.buttonPlay[i][j].setEnabled(false);
+					GameJframe.label[0].setText("Xin chúc mừng chữ " + dapanPlayer + " ! Có " + count + " chữ " + dapanPlayer + "");
 
+					Image img = ImageIO.read(getClass().getResource("/image/" + idImage + ".jpg"));
+					ArrayList<Integer> location = playGame.locationOChu(ControllerGame.question, dapanPlayer);
+					for (Integer integer : location) {
+						ControllerGame.gameJframe.labelOChu[integer].setIcon(new ImageIcon(img));
+						ControllerGame.oChu--;
+					}
+
+					// mở hết các ô thông báo người chơi đoán ô chữ
+					if (ControllerGame.oChu == 0) {
+						answer = JOptionPane.showInputDialog(null, "Đáp án của bạn là");
+						String notice = playGame.checkDapan(ControllerGame.question, answer, ControllerGame.round);
+						NoticeMessage.noticeMessage(notice);
+						
+						if ("Rất tiếc bạn đã trả lời sai".equals(notice)) {	
+							PlayGame.swapLuotChoi();
+							PlayGame.setLuotChoi();
+						} else {
+							// vòng mới
+							if (luotchoi == 0) {
+								ManagePoint.pointPlayer1Round += ControllerGame.pointPlayer1;
+							} else if (luotchoi == 1) {
+								ManagePoint.pointPlayer2Round += ControllerGame.pointPlayer2;
+							} else if (luotchoi == 2) {
+								ManagePoint.pointPlayer3Round += ControllerGame.pointPlayer3;
+							}
+							
+							GameJframe.buttonAnswer.setEnabled(false);
+							GameJframe.buttonNext.setEnabled(true);
+						}
+						
+						// nếu khóa thành công tăng vòng đấu lên 1
+						if (playGame.lock(notice)) {
+							ControllerGame.round++;
+						}
+					}
+				} else {
+					GameJframe.label[0].setText("Rất tiếc chữ " + dapanPlayer + " ! Có " + count + " chữ " + dapanPlayer + "");
+				}
+				
+				
 				// nếu tl không có -> chuyển lượt chơi
 				if (count == 0) {
 					if (themluot == 1) {
 						themluot--;
 					} else {
-						if (luotchoi == 2) {
-							luotchoi = 0;
-						} else {
-							luotchoi++;
-						}
+						PlayGame.swapLuotChoi();
 						PlayGame.setLuotChoi();
 					}
 				} else if (count != 0 && ControllerGame.round != 4) {
@@ -115,25 +151,19 @@ public class ControllerClickButton implements ActionListener {
 						}
 					} else if (ControllerGame.point == 3) {
 						if (luotchoi == 0) {
-							ControllerGame.pointPlayer1 = ManagePoint.getPointAnswerTrueSpecial("chiadoi",
-									ControllerGame.pointPlayer1);
+							ControllerGame.pointPlayer1 = ManagePoint.getPointAnswerTrueSpecial("chiadoi", ControllerGame.pointPlayer1);
 						} else if (luotchoi == 1) {
-							ControllerGame.pointPlayer2 = ManagePoint.getPointAnswerTrueSpecial("chiadoi",
-									ControllerGame.pointPlayer1);
+							ControllerGame.pointPlayer2 = ManagePoint.getPointAnswerTrueSpecial("chiadoi", ControllerGame.pointPlayer1);
 						} else if (luotchoi == 2) {
-							ControllerGame.pointPlayer3 = ManagePoint.getPointAnswerTrueSpecial("chiadoi",
-									ControllerGame.pointPlayer1);
+							ControllerGame.pointPlayer3 = ManagePoint.getPointAnswerTrueSpecial("chiadoi", ControllerGame.pointPlayer1);
 						}
 					} else if (ControllerGame.point == 5) {
 						if (luotchoi == 0) {
-							ControllerGame.pointPlayer1 = ManagePoint.getPointAnswerTrueSpecial("nhandoi",
-									ControllerGame.pointPlayer1);
+							ControllerGame.pointPlayer1 = ManagePoint.getPointAnswerTrueSpecial("nhandoi", ControllerGame.pointPlayer1);
 						} else if (luotchoi == 1) {
-							ControllerGame.pointPlayer2 = ManagePoint.getPointAnswerTrueSpecial("nhandoi",
-									ControllerGame.pointPlayer1);
+							ControllerGame.pointPlayer2 = ManagePoint.getPointAnswerTrueSpecial("nhandoi", ControllerGame.pointPlayer1);
 						} else if (luotchoi == 2) {
-							ControllerGame.pointPlayer3 = ManagePoint.getPointAnswerTrueSpecial("nhandoi",
-									ControllerGame.pointPlayer1);
+							ControllerGame.pointPlayer3 = ManagePoint.getPointAnswerTrueSpecial("nhandoi", ControllerGame.pointPlayer1);
 						}
 					} else {
 						if (luotchoi == 0) {
@@ -147,34 +177,7 @@ public class ControllerClickButton implements ActionListener {
 					ControllerGame.gameJframe.label[7].setText(String.valueOf(ControllerGame.pointPlayer1));
 					ControllerGame.gameJframe.label[8].setText(String.valueOf(ControllerGame.pointPlayer2));
 					ControllerGame.gameJframe.label[9].setText(String.valueOf(ControllerGame.pointPlayer3));
-				}
-
-				if (count != 0) {
-					ControllerGame.gameJframe.buttonPlay[i][j].setEnabled(false);
-					GameJframe.label[0].setText(
-							"Xin chúc mừng chữ " + dapanPlayer + " ! Có " + count + " chữ " + dapanPlayer + "");
-
-					Image img = ImageIO.read(getClass().getResource("/image/" + idImage + ".jpg"));
-					ArrayList<Integer> location = playGame.locationOChu(ControllerGame.question, dapanPlayer);
-					for (Integer integer : location) {
-						ControllerGame.gameJframe.labelOChu[integer].setIcon(new ImageIcon(img));
-						ControllerGame.oChu--;
-					}
-
-					// mở hết các ô thông báo người chơi đoán ô chữ
-					if (ControllerGame.oChu == 0) {
-						answer = JOptionPane.showInputDialog(null, "Đáp án của bạn là");
-						String notice = playGame.checkDapan(ControllerGame.question, answer, ControllerGame.round);
-						NoticeMessage.noticeMessage(notice);
-
-						// nếu khóa thành công tăng vòng đấu lên 1
-						if (playGame.lock(notice)) {
-							ControllerGame.round++;
-						}
-					}
-				} else {
-					GameJframe.label[0]
-							.setText("Rất tiếc chữ " + dapanPlayer + " ! Có " + count + " chữ " + dapanPlayer + "");
+					ControllerGame.point = 0; // gán lại point quay được = 0
 				}
 			}
 		} catch (Exception e2) {

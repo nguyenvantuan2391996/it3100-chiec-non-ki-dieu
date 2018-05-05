@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,7 +10,7 @@ import model.PlayGame;
 import view.SpecialGameRound;
 
 public class ControllerStratTime extends Thread implements ActionListener {
-	public static int timeAnswer = 10;
+	public static int timeAnswer = 60;
 	public static String time;
 	public int j;
 
@@ -22,6 +23,7 @@ public class ControllerStratTime extends Thread implements ActionListener {
 			time = minute + ":" + Second;
 			if (Second < 10) {
 				time = minute + ":0" + Second;
+				SpecialGameRound.labelTime.setForeground(Color.RED);
 			}
 			SpecialGameRound.labelTime.setText(time);
 			try {
@@ -46,6 +48,9 @@ public class ControllerStratTime extends Thread implements ActionListener {
 		if (e.getSource() == SpecialGameRound.buttonTime) {
 			ControllerStratTime starttime = new ControllerStratTime();
 			starttime.start();
+			if("Chúc mừng bạn đã giành chiến thắng vòng đặc biệt".equals(ControllerGame.specialGameRound.label[10].getText())) {
+				starttime.stop();
+			}
 		}
 	}
 
