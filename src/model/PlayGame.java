@@ -283,21 +283,13 @@ public class PlayGame extends ConnectDB {
 	 * @return true khóa thành công và ngược lại
 	 */
 	public boolean lock(String notice) {
-		if ("Chính xác".equals(notice)) {
+		if ("Chính xác".equals(notice) || "Time Out".equals(notice) || "Đoán hết 3 ô chữ".equals(notice)) {
 			for (int i = 0; i < 2; i++) {
 				for (int j = 0; j < 13; j++) {
 					ControllerGame.gameJframe.buttonPlay[i][j].setEnabled(false);
 				}
 			}
 			return true;
-		}
-		// hết giờ -> khóa
-		else if ("Time Out".equals(notice)) {
-			for (int i = 0; i < 2; i++) {
-				for (int j = 0; j < 13; j++) {
-					SpecialGameRound.buttonPlay[i][j].setEnabled(false);
-				}
-			}
 		}
 		return false;
 	}

@@ -10,9 +10,10 @@ import model.PlayGame;
 import view.SpecialGameRound;
 
 public class ControllerStratTime extends Thread implements ActionListener {
-	public static int timeAnswer = 60;
+	public static int timeAnswer = 30;
 	public static String time;
 	public int j;
+	ControllerStratTime starttime;
 
 	@Override
 	public void run() {
@@ -40,17 +41,18 @@ public class ControllerStratTime extends Thread implements ActionListener {
 					SpecialGameRound.buttonNext.setEnabled(false);
 				}
 			}
+			
+			if("Chúc mừng bạn đã giành chiến thắng vòng đặc biệt".equals(ControllerGame.specialGameRound.label[10].getText())) {
+				starttime.stop();
+			}
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == SpecialGameRound.buttonTime) {
-			ControllerStratTime starttime = new ControllerStratTime();
+			starttime = new ControllerStratTime();
 			starttime.start();
-			if("Chúc mừng bạn đã giành chiến thắng vòng đặc biệt".equals(ControllerGame.specialGameRound.label[10].getText())) {
-				starttime.stop();
-			}
 		}
 	}
 

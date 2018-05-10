@@ -21,6 +21,7 @@ public class ControllerClickButton implements ActionListener {
 	public static String answer;
 	public static int luotchoi;
 	public static int themluot;
+	public static int oChuDuocDoan = 3; // ô chữ đc đoán vòng đặc biệt
 	public static StatisticJframe statisticJframe;
 	
 	@Override
@@ -30,6 +31,7 @@ public class ControllerClickButton implements ActionListener {
 				answer = JOptionPane.showInputDialog(null, "Đáp án của bạn là");
 				String notice = playGame.checkDapan(ControllerGame.question, answer, ControllerGame.round);
 				if ("Rất tiếc bạn đã trả lời sai".equals(notice)) {	
+					NoticeMessage.noticeMessage(notice);
 					PlayGame.swapLuotChoi();
 					PlayGame.setLuotChoi();
 				} else {
@@ -78,6 +80,13 @@ public class ControllerClickButton implements ActionListener {
 				String idImage = String.valueOf(i) + String.valueOf(j);
 				String dapanPlayer = playGame.convertText(ControllerGame.gameJframe.buttonPlay[i][j].getName()); // lấy tên ảnh -> ô chữ
 				int count = playGame.checkOChu(ControllerGame.question, dapanPlayer, ControllerGame.round);
+				
+				if (ControllerGame.round == 4) {
+					oChuDuocDoan--;
+					if( oChuDuocDoan == 0) {
+						playGame.lock("Đoán hết 3 ô chữ");
+					}
+				}
 				
 				if (count != 0) {
 					ControllerGame.gameJframe.buttonPlay[i][j].setEnabled(false);
