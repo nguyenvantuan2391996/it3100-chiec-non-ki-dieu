@@ -1,5 +1,5 @@
 # it3100
-                                    ĐỒ ÁN MÔN HỌC LẬP TRÌNH HƯỚNG ĐỐI TƯỢNG
+                                    BÀI TẬP LỚN MÔN HỌC LẬP TRÌNH HƯỚNG ĐỐI TƯỢNG
 
 - Tên đề tài : Chương trình chiếc nón kì diệu
 - Cơ sở lý thuyết : Các tài liệu về phân tích thiết kế hướng đối tượng, lập trình hướng đối tượng,
